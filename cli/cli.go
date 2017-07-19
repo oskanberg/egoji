@@ -1,4 +1,4 @@
-package cli
+package main
 
 import (
 	"flag"
@@ -10,7 +10,7 @@ import (
 func main() {
 	input := flag.String("input", "Hello World", "The input string")
 	flag.Parse()
-	translater := egoji.NewTranslater()
-	output := translater.Translate(*input)
+	translater := egoji.NewSimpleTranslate()
+	output, _ := translater.Translate(*input)
 	fmt.Println(output)
 }

@@ -1,12 +1,17 @@
 package egoji
 
-import "fmt"
-
 type translater interface {
-	translate(string) (string, error)
+	Translate(string) (string, error)
 }
 
 type simpleTranslate struct {
+}
+
+func (s simpleTranslate) Translate(input string) (string, error) {
+	simpleEmoji := newSimpleEmoji()
+	//TODO: split
+	output, _ := simpleEmoji.emoji(input)
+	return string(output), nil
 }
 
 type emojier interface {
@@ -27,8 +32,12 @@ func (e *simpleEmoji) emoji(s string) (rune, error) {
 	return e.database[s], nil
 }
 
-func main() {
-	var x = newSimpleEmoji()
-	test, _ := x.emoji("hello")
-	fmt.Println(string(test))
+func NewSimpleTranslate() translater {
+	return simpleTranslate{}
 }
+
+// func main() {
+// 	var x = newSimpleEmoji()
+// 	test, _ := x.emoji("hello")
+// 	fmt.Println(string(test))
+// }

@@ -2,16 +2,17 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
-)
 
-// {
-//   input: "lorem ipsum"
-// }
+	"github.com/oskanberg/egoji"
+)
 
 type request struct {
 	Input string `json:"input"`
+}
+
+type response struct {
+	Output string `json:"output"`
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -23,9 +24,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	fmt.Println(t)
+	translater := egoji.NewSimpleTranslate()
+	output, _ := translater.Translate(t.Input)
+
 	encoder := json.NewEncoder(w)
-	encoder.Encode(t)
+	encoder.Encode(response{Output: output})
 }
 
 func main() {
